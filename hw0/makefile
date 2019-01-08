@@ -14,7 +14,10 @@ all: $(TARGETS)
 %.o : %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+test-wc: wc.out
+	./test-wc.sh
+
 clean:
 	-rm -f *.o
-	-rm -f *.out	
+	-rm -f *.out
 

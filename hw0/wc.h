@@ -11,5 +11,3 @@
 
 #define WC_BUFFER_SIZE (4096)
 
-static const int test = 1337;
-

@@ -9,3 +9,7 @@ individual assignments source code.
 ### Week 1
 
 * [Homework 0](hw0/README.MD)
+
+### Week 2
+
+* [Section 2](section_02/README.MD)

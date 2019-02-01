@@ -6,4 +6,6 @@ individual assignments source code.
 
 ## Syllabus
 
+### Week 1
+
 * [Homework 0](hw0/README.MD)

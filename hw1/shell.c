@@ -29,6 +29,8 @@ pid_t shell_pgid;
 
 int cmd_exit(struct tokens *tokens);
 int cmd_help(struct tokens *tokens);
+int cmd_pwd(struct tokens *tokens);
+int cmd_cd(struct tokens *tokens);
 
 /* Built-in command functions take token array (see parse.h) and return int */
 typedef int cmd_fun_t(struct tokens *tokens);
@@ -43,6 +45,8 @@ typedef struct fun_desc {
 fun_desc_t cmd_table[] = {
   {cmd_help, "?", "show this help menu"},
   {cmd_exit, "exit", "exit the command shell"},
+  {cmd_pwd, "pwd", "print working directory"},
+  {cmd_cd, "cd", "change directory to <path>"},
 };
 
 /* Prints a helpful description for the given command */
@@ -55,6 +59,26 @@ int cmd_help(unused struct tokens *tokens) {
 /* Exits this shell */
 int cmd_exit(unused struct tokens *tokens) {
   exit(0);
+}
+
+int cmd_pwd(unused struct tokens *tokens) {
+  char *path_buf = NULL;
+
+  if ((path_buf = getcwd(NULL, 0))) {
+   fprintf(stdout, "%s\n", path_buf); 
+   free(path_buf);
+  } else {
+    return -1;
+  }
+
+  return 1;
+}
+
+int cmd_cd(struct tokens *tokens) {
+  // printf("cmd %s, path %s\n", tokens_get_token(tokens, 0), tokens_get_token(tokens, 1));
+  if (chdir(tokens_get_token(tokens, 1)) == -1)
+    return -1;
+  return 1;
 }
 
 /* Looks up the built-in command, if it exists. */
@@ -113,6 +137,10 @@ int main(unused int argc, unused char *argv[]) {
     } else {
       /* REPLACE this to run commands as programs. */
       fprintf(stdout, "This shell doesn't know how to run programs.\n");
+      // size_t i;
+      // for (i = 0; i < tokens_get_length(tokens); i++) {
+      //  fprintf(stdout, "%s - %s\n", i == 0 ? "cmd" : "arg", tokens_get_token(tokens, i));
+      // } 
     }
 
     if (shell_is_interactive)

@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "tokenizer.h"
 
@@ -220,38 +222,93 @@ int main(unused int argc, unused char *argv[]) {
 					goto clean;
 			}
 execute: ;
-			char **_args = malloc(sizeof(char *));
-			_args[0] = path;
+			ssize_t mb_ir_idx = tokens_get_token_id(tokens, "<");
+			ssize_t mb_or_idx = tokens_get_token_id(tokens, ">");
+			int mb_fd;
 
-			for (i = 1; i < tokens_get_length(tokens); i++) {
-				_args = realloc(_args, sizeof(char *) * (i + 1));
+			if (mb_ir_idx > 0) {
+				char *mb_file_name = NULL;
+				mb_file_name = tokens_get_token(tokens, mb_ir_idx + 1);
 
-				_args[i] = tokens_get_token(tokens, i);
-			}
-
-			_args = realloc(_args, sizeof(char *) * (i + 1));
-			_args[i] = NULL;
-
-			int status;
-			pid_t pid = fork();
-			if (pid == -1) {
-				perror("fork");
-				exit(EXIT_FAILURE);
-			} else if (pid == 0) {
-				if (execv(path, _args) == -1) {
-					free(_args);
-					perror("exec");
-					exit(EXIT_FAILURE);
+				if (!mb_file_name) {
+					perror("input redirection - invalid syntax");
+					goto clean;
 				}
-			} else {
-				wait(&status);
+
+				if ((mb_fd = open(mb_file_name, O_RDONLY)) == -1) {
+					perror("open");
+					goto clean;
+				}
+
+				if (dup2(mb_fd, STDIN_FILENO) == -1) {
+					perror("dup2");
+					goto clean;
+				}
 			}
 
-			free(_args);
+			if (mb_or_idx > 0) {
+				char *mb_file_name = NULL;
+				mb_file_name = tokens_get_token(tokens, mb_or_idx + 1);
+
+				if (!mb_file_name) {
+					perror("output redirection - invalid syntax");
+					goto clean;
+				}
+
+				if ((mb_fd = open(mb_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1) {
+					perror("open");
+					goto clean;
+				}
+
+				if (dup2(mb_fd, STDOUT_FILENO) == -1) {
+					perror("dup2");
+					goto clean;
+				}
+			}
+
+			{
+				size_t _argsc = tokens_get_length(tokens);
+				size_t shift = 0;
+				if (mb_ir_idx > 0)
+					_argsc -= 2;
+				if (mb_or_idx > 0)
+					_argsc -= 2;
+
+				char *_args[_argsc + 1];
+				_args[0] = path;
+
+				for (i = 1; i < tokens_get_length(tokens); i++) {
+					if ((mb_ir_idx != -1 && i == (unsigned long) mb_ir_idx) ||
+						(mb_or_idx != -1 && i == (unsigned long) mb_or_idx))
+					{
+						i++;
+						shift += 2;
+						continue;
+					}
+
+					_args[i-shift] = tokens_get_token(tokens, i);
+				}
+
+				_args[i-shift] = NULL;
+
+				int status;
+				pid_t pid = fork();
+				if (pid == -1) {
+					perror("fork");
+					exit(EXIT_FAILURE);
+				} else if (pid == 0) {
+					if (execv(path, _args) == -1) {
+						free(_args);
+						perror("exec");
+						exit(EXIT_FAILURE);
+					}
+				} else {
+					wait(&status);
+				}
+			}
 clean:
 			if (clean_path)
 				free(path);
-
 			if (clean_path_buf)
 				free(path_buf);
 		}

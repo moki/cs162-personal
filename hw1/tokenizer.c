@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include "tokenizer.h"
 
 struct tokens {
@@ -111,6 +112,17 @@ char *tokens_get_token(struct tokens *tokens, size_t n) {
   } else {
     return tokens->tokens[n];
   }
+}
+
+ssize_t tokens_get_token_id(struct tokens *tokens, char *target) {
+	size_t i;
+
+	for (i = 0; i < tokens_get_length(tokens); i++) {
+		if (!strcmp(tokens_get_token(tokens, i), target))
+			return i;
+	}
+
+	return -1;
 }
 
 void tokens_destroy(struct tokens *tokens) {

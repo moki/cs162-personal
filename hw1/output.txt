@@ -1,29 +1,17 @@
-total 224
-drwxr-xr-x 3 vagrant vagrant  4096 Feb 12 15:39 .
+total 216
+drwxr-xr-x 3 vagrant vagrant  4096 Feb 13 08:20 .
 drwxr-xr-x 8 vagrant vagrant  4096 Feb  1 09:21 ..
-drwxrwxr-x 2 vagrant vagrant  4096 Feb 12 15:38 .d
+drwxrwxr-x 2 vagrant vagrant  4096 Feb 13 08:20 .d
 -rw-r--r-- 1 vagrant vagrant     6 Dec 25 08:28 .gitignore
 -rw-rw-r-- 1 vagrant vagrant    10 Feb 12 15:38 input.txt
 -rw-rw-r-- 1 vagrant vagrant   733 Feb 12 15:21 makefile
 -rw-r--r-- 1 vagrant vagrant   270 Dec 25 08:28 old.makefile
--rw-r--r-- 1 vagrant vagrant     0 Feb 12 15:39 output.txt
--rw-r--r-- 1 vagrant vagrant  7343 Feb 12 15:37 shell.c
--rw-r--r-- 1 vagrant vagrant 24576 Feb 12 15:37 .shell.c.swp
--rw-rw-r-- 1 vagrant vagrant 70136 Feb 12 15:38 shell.o
--rwxrwxr-x 1 vagrant vagrant 43859 Feb 12 15:38 shell.out
--rw-r--r-- 1 vagrant vagrant  3178 Feb 12 14:41 tokenizer.c
--rw-r--r-- 1 vagrant vagrant 12288 Feb 12 14:41 .tokenizer.c.swp
+-rw-r--r-- 1 vagrant vagrant     0 Feb 13 08:22 output.txt
+-rw-r--r-- 1 vagrant vagrant  7784 Feb 13 08:20 shell.c
+-rw-r--r-- 1 vagrant vagrant 28672 Feb 13 08:20 .shell.c.swp
+-rw-rw-r-- 1 vagrant vagrant 72352 Feb 13 08:20 shell.o
+-rwxrwxr-x 1 vagrant vagrant 44491 Feb 13 08:20 shell.out
+-rw-r--r-- 1 vagrant vagrant  3178 Feb 12 15:40 tokenizer.c
 -rw-r--r-- 1 vagrant vagrant   498 Feb 12 04:38 tokenizer.h
--rw-rw-r-- 1 vagrant vagrant 26960 Feb 12 15:33 tokenizer.o
-1: total 40
-drwxr-xr-x 8 vagrant vagrant 4096 Feb  1 09:21 .
-drwxr-xr-x 4 vagrant vagrant 4096 Dec 25 08:28 ..
-drwxr-xr-x 8 vagrant vagrant 4096 Feb 12 00:05 .git
--rw-rw-r-- 1 vagrant vagrant  430 Jan  4 14:06 .gitignore
-drwxr-xr-x 2 vagrant vagrant 4096 Jan 28 09:59 hw0
-drwxr-xr-x 3 vagrant vagrant 4096 Feb 12 15:39 hw1
-drwxr-xr-x 3 vagrant vagrant 4096 Dec 25 08:28 hw2
-drwxr-xr-x 2 vagrant vagrant 4096 Dec 25 08:28 hw3
--rw-r--r-- 1 vagrant vagrant  212 Feb  1 09:21 README.MD
-drwxrwxr-x 2 vagrant vagrant 4096 Feb  1 12:29 section_02
+-rw-rw-r-- 1 vagrant vagrant 26960 Feb 13 07:32 tokenizer.o
 2: 

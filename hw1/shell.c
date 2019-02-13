@@ -107,8 +107,21 @@ void init_shell() {
 		while (tcgetpgrp(shell_terminal) != (shell_pgid = getpgrp()))
 			kill(-shell_pgid, SIGTTIN);
 
+		/* Ignore signals */
+		signal(SIGINT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTTIN, SIG_IGN);
+		signal(SIGTTOU, SIG_IGN);
+
 		/* Saves the shell's process id */
 		shell_pgid = getpid();
+
+		/* Push to own group */
+		if (setpgid(shell_pgid, shell_pgid) == -1) {
+			perror("setpgid");
+			exit(EXIT_FAILURE);
+		}
 
 		/* Take control of the terminal */
 		tcsetpgrp(shell_terminal, shell_pgid);
@@ -147,6 +160,15 @@ int main(unused int argc, unused char *argv[]) {
 			bool found_executable = false;
 			bool clean_path_buf = false;
 			bool clean_path = true;
+			bool is_bg_process = false;
+
+			char *last_token = tokens_get_token(tokens, tokens_get_length(tokens) - 1);
+
+			if (strcmp(last_token, "&") == 0) {
+				is_bg_process = true;
+				free(last_token);
+				last_token = NULL;
+			}
 
 			// check if absolute path.
 			if (tokens_get_token(tokens, 0)[0] == '/') {
@@ -297,13 +319,24 @@ execute: ;
 					perror("fork");
 					exit(EXIT_FAILURE);
 				} else if (pid == 0) {
+					signal(SIGINT, SIG_DFL);
+					signal(SIGTSTP, SIG_DFL);
+					signal(SIGQUIT, SIG_DFL);
+					signal(SIGTTIN, SIG_DFL);
+					signal(SIGTTOU, SIG_DFL);
+
 					if (execv(path, _args) == -1) {
 						free(_args);
 						perror("exec");
 						exit(EXIT_FAILURE);
 					}
 				} else {
-					wait(&status);
+					if (!is_bg_process) {
+						if(wait(&status) == -1) {
+							perror("wait");
+							exit(EXIT_FAILURE);
+						} 
+					}
 				}
 			}
 clean:

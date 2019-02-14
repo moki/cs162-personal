@@ -13,3 +13,10 @@ individual assignments source code.
 ### Week 2
 
 * [Section 2](section_02/README.MD)
+
+### Week 3
+
+* [Homework 1](hw1/README.MD)
+
+* [Section 3](section_03/README.MD)
+

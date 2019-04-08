@@ -1,0 +1,26 @@
+total 88
+drwxr-xr-x  23 root    root     4096 Feb 14 10:39 .
+drwxr-xr-x  23 root    root     4096 Feb 14 10:39 ..
+drwxr-xr-x   2 root    root     4096 Dec 18 20:39 bin
+drwxr-xr-x   3 root    root     4096 Dec 18 19:43 boot
+drwxr-xr-x  13 root    root     3880 Feb 14 19:13 dev
+drwxr-xr-x 102 root    root     4096 Feb 14 10:39 etc
+drwxr-xr-x   4 root    root     4096 Dec 25 08:26 home
+lrwxrwxrwx   1 root    root       34 Dec 18 19:42 initrd.img -> boot/initrd.img-3.13.0-163-generic
+drwxr-xr-x  22 root    root     4096 Dec 18 20:40 lib
+drwxr-xr-x   2 root    root     4096 Dec 18 19:41 lib64
+drwx------   2 root    root    16384 Dec 18 19:44 lost+found
+drwxr-xr-x   2 root    root     4096 Dec 18 19:40 media
+drwxr-xr-x   2 root    root     4096 Apr 10  2014 mnt
+drwxr-xr-x   2 root    root     4096 Dec 18 19:40 opt
+dr-xr-xr-x  99 root    root        0 Feb 14 10:39 proc
+drwx------   3 root    root     4096 Dec 25 08:26 root
+drwxr-xr-x  23 root    root      820 Feb 14 10:41 run
+drwxr-xr-x   2 root    root     4096 Dec 18 20:39 sbin
+drwxr-xr-x   2 root    root     4096 Dec 18 19:40 srv
+dr-xr-xr-x  13 root    root        0 Feb 14 10:39 sys
+drwxrwxrwt   8 root    root     4096 Feb 14 19:38 tmp
+drwxr-xr-x  10 root    root     4096 Dec 18 19:40 usr
+drwx------   1 vagrant vagrant  4096 Feb 14 10:41 vagrant
+drwxr-xr-x  13 root    root     4096 Dec 25 08:26 var
+lrwxrwxrwx   1 root    root       31 Dec 18 19:42 vmlinuz -> boot/vmlinuz-3.13.0-163-generic

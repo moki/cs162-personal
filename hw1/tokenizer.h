@@ -14,3 +14,7 @@ char *tokens_get_token(struct tokens *tokens, size_t n);
 
 /* Free the memory */
 void tokens_destroy(struct tokens *tokens);
+
+/* Get token id */
+ssize_t tokens_get_token_id(struct tokens *tokens, char *target);
+

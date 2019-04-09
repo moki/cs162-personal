@@ -3,7 +3,7 @@ CFLAGS=-ggdb3 -c -Wall -std=gnu99
 LDFLAGS=-pthread
 SOURCES=httpserver.c libhttp.c wq.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=httpserver
+EXECUTABLE=httpserver.out
 
 all: $(SOURCES) $(EXECUTABLE)
 

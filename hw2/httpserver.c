@@ -1,3 +1,6 @@
+#define _XOPEN_SOURCE 700
+#define _BSD_SOURCE 1
+
 #include <arpa/inet.h>
 #include <dirent.h>
 #include <errno.h>
@@ -78,7 +81,7 @@ void handle_files_request(int fd) {
 void handle_proxy_request(int fd) {
 
   /*
-  * The code below does a DNS lookup of server_proxy_hostname and 
+  * The code below does a DNS lookup of server_proxy_hostname and
   * opens a connection to it. Please do not modify.
   */
 
@@ -118,8 +121,8 @@ void handle_proxy_request(int fd) {
 
   }
 
-  /* 
-  * TODO: Your solution for task 3 belongs here! 
+  /*
+  * TODO: Your solution for task 3 belongs here!
   */
 }
 
@@ -219,14 +222,15 @@ void exit_with_usage() {
 
 int main(int argc, char **argv) {
   signal(SIGINT, signal_callback_handler);
-
-  /* Default settings */
-  server_port = 8000;
   void (*request_handler)(int) = NULL;
+  size_t i;
 
-  int i;
   for (i = 1; i < argc; i++) {
     if (strcmp("--files", argv[i]) == 0) {
+      if (request_handler == handle_proxy_request) {
+	fprintf(stderr, "Can't serve and proxy at the same time\n");
+	exit_with_usage();
+      }
       request_handler = handle_files_request;
       free(server_files_directory);
       server_files_directory = argv[++i];
@@ -234,9 +238,13 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Expected argument after --files\n");
         exit_with_usage();
       }
-    } else if (strcmp("--proxy", argv[i]) == 0) {
-      request_handler = handle_proxy_request;
 
+    } else if (strcmp("--proxy", argv[i]) == 0) {
+      if (request_handler == handle_files_request) {
+	fprintf(stderr, "Can't serve and proxy at the same time\n");
+	exit_with_usage();
+      }
+      request_handler = handle_proxy_request;
       char *proxy_target = argv[++i];
       if (!proxy_target) {
         fprintf(stderr, "Expected argument after --proxy\n");

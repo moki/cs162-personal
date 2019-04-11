@@ -15,7 +15,8 @@ typedef struct wq_item {
 typedef struct wq {
   int size;
   wq_item_t *head;
-  /* TODO: More stuff here, maybe? */
+  pthread_cond_t cond_var;
+  pthread_mutex_t mutex;
 } wq_t;
 
 void wq_init(wq_t *wq);

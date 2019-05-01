@@ -41,7 +41,39 @@ int main() {
     int *data = (int*) mm_malloc(sizeof(int));
     assert(data != NULL);
     data[0] = 0x162;
+
+    size_t *_data = (size_t *) mm_malloc(sizeof(size_t));
+    assert(_data != NULL);
+    _data[0] = 0x162;
+
+    char *__data = (char *) mm_malloc(sizeof(char));
+    assert(__data != NULL);
+    *__data = 'c';
+
     mm_free(data);
+    mm_free(_data);
+    mm_free(__data);
+
+    data = (int *) mm_malloc(sizeof(int));
+    assert(data != NULL);
+    data[0] = 0x162;
+
+    mm_free(data);
+
+    __data = (char *) mm_malloc(sizeof(char));
+    assert(__data != NULL);
+    *__data = 'c';
+
+    __data = (char *) mm_realloc(__data, 3);
+
+    __data[0] = 'c';
+    __data[1] = 'h';
+    __data[2] = '\0';
+
+    __data = (char *) mm_realloc(__data, 4);
+
+    mm_free(__data);
+
     printf("malloc test successful!\n");
     return 0;
 }

@@ -7,6 +7,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <unistd.h>
 
 void *mm_malloc(size_t size);
 void *mm_realloc(void *ptr, size_t size);
